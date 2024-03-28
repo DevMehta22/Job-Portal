@@ -58,18 +58,6 @@ const Recruiter = db.define("Recruiter",{
     Email:{
         type : sequelize.STRING,
         allowNull: false
-    },
-    CompanyName: {
-        type: sequelize.STRING,
-        allowNull: false
-    },
-    Sector: {
-        type: sequelize.STRING,
-        allowNull: false
-    },
-    Branch_Address: {
-        type: sequelize.TEXT, 
-        allowNull: true
     }
 });
 
@@ -88,6 +76,14 @@ const JobListing = db.define("JobListing",{
         }
     },
     Title: {
+        type: sequelize.STRING,
+        allowNull: false
+    },
+    CompanyName: {
+        type: sequelize.STRING,
+        allowNull: false
+    },
+    Sector: {
         type: sequelize.STRING,
         allowNull: false
     },
