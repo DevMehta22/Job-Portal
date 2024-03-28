@@ -164,7 +164,7 @@ const Resume = db.define("Resume",{
             key: 'CandidateID'
         }
     },
-    FileData: {
+    ResumeData: {
         type: sequelize.BLOB('long'),
         allowNull: false
     }
@@ -218,15 +218,15 @@ const Experience = db.define('Experience', {
     },
     Postion: {
       type: sequelize.STRING,
-      allowNull: false
+      allowNull: true
     },
     Company: {
       type: sequelize.STRING,
-      allowNull: false
+      allowNull: true
     },
     start_date: {
       type: sequelize.DATE,
-      allowNull: false
+      allowNull: true
     },
     end_date: {
       type: sequelize.DATE,
@@ -261,4 +261,13 @@ const syncModel = async()=>{
     }
 }
 
-module.exports = {syncModel}
+module.exports = {
+    syncModel,
+    Candidate,
+    Recruiter,
+    JobListing,
+    JobApplication,
+    Resume,
+    Education,
+    Experience
+}
