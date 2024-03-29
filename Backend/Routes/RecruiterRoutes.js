@@ -1,11 +1,11 @@
 const express = require('express')
 const router = express.Router()
 
-const {RegisterRecruiter,ListJob,getAllApplications,updateApplication} = require("../Controllers/RecruiterControllers")
+const {RegisterRecruiter,getARecruiter,updateRecruiter,deleteRecruiter} = require("../Controllers/RecruiterControllers")
 
-router.get( '/applications/:listingid', getAllApplications) 
+router.get( '/:id', getARecruiter) 
 router.post('/register',RegisterRecruiter);
-router.post('/list/:recruiterid', ListJob);
-router.post('/updateApplication/:applicationid/:recruiterid',updateApplication)  
+router.put('/update/:id', updateRecruiter);
+router.delete('/delete/:id',deleteRecruiter);  
 
 module.exports = router

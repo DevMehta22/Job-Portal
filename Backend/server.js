@@ -3,12 +3,16 @@ const express = require('express')
 const app = express()
 const CandidateRoutes = require('./Routes/CandidateRoutes')
 const RecruiterRoutes = require("./Routes/RecruiterRoutes")
+const CandidateFuncRoutes = require("./Routes/CandidateFuncRoutes")
+const RecruiterFuncRoutes = require("./Routes/RecruiterFuncRoutes")
 
 const {syncModel} = require('./Models/models') 
 
 app.use(express.json())
 app.use('/api/candidate',CandidateRoutes)
+app.use('/api/candidatefunc',CandidateFuncRoutes)
 app.use('/api/recruiter',RecruiterRoutes)
+app.use('/api/recruiterfunc',RecruiterFuncRoutes)
 
 const port = process.env.PORT || 5500
 

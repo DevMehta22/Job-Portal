@@ -1,4 +1,4 @@
-const {Candidate,JobListing,Education,Experience,Resume,JobApplication,Recruiter} = require('../Models/models')
+const {Candidate} = require('../Models/models')
 
 const RegisterCandidate = async(req,res)=>{
     const {Name,Email,Phone_no,Address,DOB,Gender} = req.body;
@@ -19,59 +19,59 @@ const RegisterCandidate = async(req,res)=>{
     }
 }
 
-const ViewJobs = async(req,res)=>{
-    try{
-        const jobsData = await JobListing.findAll();
-        res.status(200).json(jobsData);
-    } catch(err){
-        console.log('Error in fetching job listings', err);
-        res.status(500).json({ error : 'Internal server error' });
-    }
-}
-
-const  ApplyForJob = async(req,res) => {
-    const {CandidateId , ListingId}= req.params;
+const getAllCandidates = async(req,res)=>{
     try {
-        const {Degree,Institution,Major,Graduation_year,Position,Company,start_date,end_date,skill_name,ResumeData} = req.body;
-        if (!Degree || !Institution || !Major || !Graduation_year || !skill_name || !ResumeData) {
-            return res.status(400).json({ message: "please provide all required fields." })
-        }
-        let  applicantCheck = await JobApplication.findOne({where :{
-            CandidateId:CandidateId,
-            ListingId: ListingId
-        }});
-
-        if (applicantCheck){
-            return res.status(409).json({message:"You have already applied for this job!"});
+        const  candidates = await Candidate.findAll();
+        if (candidates) {
+            res.status(200).json(candidates);
+        }else{
+            res.status(404).json({ message : 'No Data Found!' });
         }
         
-        let education = await Education.findOne({where: {CandidateId:CandidateId}})
-        if (!education) {
-            await Education.create ({CandidateId, Degree, Institution, Major, Graduation_year});
-        }else{
-            await education.update({Degree, Institution, Major, Graduation_year});
-        }
-
-        let experience = await Experience.findOne({where: {CandidateId:CandidateId}})
-        if (!experience) {
-            await Experience.create ({CandidateId,Position,Company,start_date,end_date,skill_name});
-        }else{
-            await experience.update({Position,Company,start_date,end_date,skill_name});
-        }
-
-        let resume = await Resume.findOne({where: {CandidateId:CandidateId}})
-        if (!resume) {
-            await Resume.create ({CandidateId,ResumeData});
-        }else{
-            await resume.update({ResumeData});
-        }
-        const newApplication = await JobApplication.create({CandidateId,ListingId});
-        console.log(newApplication);
-        res.status(201).json({msg:"Application Submitted Successfully!"});
     } catch (error) {
-        console.log("Error occured while applying:",error);
-        res.status(500).json("Internal Server Error");
+        console.log(error);
+        res.status(400).json("Error fetching Candidates")
     }
 }
 
-module.exports = {RegisterCandidate,ViewJobs,ApplyForJob};
+const getACandidate = async (req , res ) => {
+    const {id}=req.params;
+    try{
+       const data = await Candidate.findOne({where:{CandidateId:id}});
+       if(!data)
+           return res.status(404).json("Data Not Found!");
+       res.status(200).json(data);
+   }catch(e){
+       res.status(500).json({error:"Internal server error!"});
+   }
+}
+
+const updateProfile=async(req,res)=>{
+    const {id} = req.params;
+    const updates=req.body;
+
+    const checkCandidate = await  Candidate.findOne({ where: { CandidateId: id } })
+    if (!checkCandidate){
+        return res.status(400).json({ error:'Candidate does not exist.' })
+    }
+    try{
+        await Candidate.update(updates,{where:{CandidateId:id}})
+        res.status(201).json("Updates successfull!")
+    }catch(err){
+        console.log(err);
+        res.status(401).json({error:"Error updating  profile."})
+    }
+}
+
+const deleteProfile = async(req,res)=>{
+    const {id} = req.params;
+    try{
+         await Candidate.destroy({where:{CandidateId : id}});
+         res.status(200).send('Deleted Successfully')
+    }catch(err){
+        console.log(err);
+        res.status(500).json({error:"Error deleting record"})
+    }
+}
+
+module.exports = {RegisterCandidate,getAllCandidates,getACandidate,updateProfile,deleteProfile};

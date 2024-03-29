@@ -1,10 +1,12 @@
 const express = require('express')
 const router = express.Router()
 
-const {RegisterCandidate,ViewJobs,ApplyForJob} = require("../Controllers/CandidateControllers")
+const {RegisterCandidate,getAllCandidates,getACandidate,updateProfile,deleteProfile} = require("../Controllers/CandidateControllers")
 
-router.get( '/jobs', ViewJobs) // Get all jobs from the database and send them to the client side
-router.post('/register',RegisterCandidate);
-router.post('/apply/:candidateid/:listingid', ApplyForJob);  // A candidate applies for a job by sending their id and the listing
+router.get( '/getCandidates', getAllCandidates)
+router.get('/getCandidates/:id',getACandidate)
+router.post('/register',RegisterCandidate)
+router.put('/update/:id',updateProfile)
+router.delete('/delete/:id',deleteProfile)
 
 module.exports = router

@@ -1,4 +1,4 @@
-const {JobListing,JobApplication,Recruiter} = require('../Models/models')
+const {Recruiter} = require('../Models/models')
 
 const RegisterRecruiter = async(req,res)=>{
     const {Name,Email} = req.body
@@ -18,43 +18,45 @@ const RegisterRecruiter = async(req,res)=>{
     }
 }
 
-const ListJob = async(req,res)=>{
-    const {RecruiterID} = req.params
-    const validRecruiter = await Recruiter.findByPk(RecruiterID)
-    if(!validRecruiter){
-        return res.status(400).send('Invalid Recruiter ID')
-    }
-    const {Title,CompanyName,Sector,JobType,Description,SalOffered,Location,Deadline} = req.body
-    await JobListing.create({RecruiterID,Title,CompanyName,Sector,JobType,Description,SalOffered,Location,Deadline})
-    .then((job)=>res.status(201).json("Job succesfully added!\n",job))
-    .catch(e=>{
-        console.log(e)
-    })
-}
-
-const getAllApplications = async(req,res) => {
-    const {ListingID} = req.params
+const getARecruiter = async(req,res)=>{
+    const {id} = req.params;
     try{
-        const applications = await JobApplication.find({where:{ListingID:ListingID}})
-        res.status(200).json(applications)
+        const user = await Recruiter.findOne({where: {RecruiterID:id}})
+        res.status(200).json("Recruiter",user)
     }catch(err){
         console.log(err)
-        res.status(500).json({msg:"Internal Server error"})
+        res.status(404).json("Record not found!")
     }
 }
-const updateApplication = async(req,res)=>{
-    const {ApplicationID,RecruiterID}=req.params
 
-    let appicationCheck = await JobApplication.findOne({where:{ApplicationID: ApplicationID}})
-    let recruiterCheck = await JobListing.findOne({where:{RecruiterID:RecruiterID}})
+const updateRecruiter = async(req,res)=>{
+    const {id} = req.params
+    const updateFields = req.body
+
+    const checkRecruiter = Recruiter.findByPk(id)
+    if (!checkRecruiter) {
+        res.status(400).json({error:"Recruiter does not exist"})
+    }
+    try {
+        await Recruiter.update(updateFields,{where:{RecruiterID:id}})
+        res.status(201).json("Recruiter updated successfully!")
+        
+    } catch (error) {
+        console.log(error)
+        res.status(401).json({error:"Error updating profile"})
+    }
+}
+
+const deleteRecruiter = async(req,res)=>{
+    const {id} = req.params
+    try{
+        await Recruiter.destroy({where:{Recruiter : id}});
+        res.status(200).send('Deleted Successfully')
+   }catch(err){
+       console.log(err);
+       res.status(500).json({error:"Error deleting record"})
+   }
     
-    if (!appicationCheck || !recruiterCheck ) {
-        return res.status(400).json("Error in finding the application or listing")
-    }
-
-    const {Status} = req.body
-    await JobApplication.update({Status},{where:{ApplicationID:ApplicationID}});
-    res.status(200).json("Update Successful!")
 }
 
-module.exports = {RegisterRecruiter,ListJob,getAllApplications,updateApplication}
+module.exports = {RegisterRecruiter,getARecruiter,updateRecruiter,deleteRecruiter}
