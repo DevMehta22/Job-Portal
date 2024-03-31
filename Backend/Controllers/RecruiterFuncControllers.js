@@ -17,7 +17,7 @@ const ListJob = async(req,res)=>{
 const getAllApplications = async(req,res) => {
     const {ListingID} = req.params
     try{
-        const applications = await JobApplication.find({where:{ListingID:ListingID}})
+        const applications = await JobApplication.findAll({where:{ListingID:ListingID}})
         res.status(200).json(applications)
     }catch(err){
         console.log(err)
