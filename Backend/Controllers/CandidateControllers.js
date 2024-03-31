@@ -7,12 +7,12 @@ const RegisterCandidate = async(req,res)=>{
     }
     try{
         //check if the user is already registered or not
-        let checkUser=await UserModel.findOne({email: Email});
+        let checkUser=await UserModel.findOne({where : {Email: Email}});
         if(checkUser){
             return res.status(409).send("User Already Exists");
         }
         const newCandidate = await Candidate.create({Name,Email,Phone_no,Address,DOB,Gender});
-        res.status(201).json("Candidate:\n" + newCandidate);
+        res.status(201).json({"Candidate": newCandidate});
     }catch(err){
         console.log('Error in registering candidate', err);
         res.status(500).json({error: 'Internal Server Error'})

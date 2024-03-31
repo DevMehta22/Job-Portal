@@ -15,7 +15,7 @@ const RegisterRecruiter = async(req,res)=>{
         res.status(201).json({"Recruiter":newUser});
     }catch(err){
         console.log(err);
-        res.status(500).json("Internal Server Error");
+        res.status(500).json({error:"Internal Server Error"});
     }
 }
 
@@ -26,7 +26,7 @@ const getARecruiter = async(req,res)=>{
         res.status(200).json({"Recruiter":user})
     }catch(err){
         console.log(err)
-        res.status(404).json("Record not found!")
+        res.status(404).json({msg:"Record not found!"})
     }
 }
 
@@ -40,7 +40,7 @@ const updateRecruiter = async(req,res)=>{
     }
     try {
         await Recruiter.update(updateFields,{where:{RecruiterID:id}})
-        res.status(201).json("Recruiter updated successfully!")
+        res.status(201).json({msg:"Recruiter updated successfully!"})
         
     } catch (error) {
         console.log(error)

@@ -8,7 +8,7 @@ const ListJob = async(req,res)=>{
     }
     const {Title,CompanyName,Sector,JobType,Description,SalOffered,Location,Deadline} = req.body
     await JobListing.create({RecruiterID,Title,CompanyName,Sector,JobType,Description,SalOffered,Location,Deadline})
-    .then((job)=>res.status(201).json("Job succesfully added!\n",job))
+    .then((job)=>res.status(201).json({"Job succesfully added!\n":job}))
     .catch(e=>{
         console.log(e)
     })
@@ -31,12 +31,12 @@ const updateApplication = async(req,res)=>{
     let recruiterCheck = await JobListing.findOne({where:{RecruiterID:RecruiterID}})
     
     if (!appicationCheck || !recruiterCheck ) {
-        return res.status(400).json("Error in finding the application or listing")
+        return res.status(400).json({error:"Error in finding the application or listing"})
     }
 
     const {Status} = req.body
     await JobApplication.update({Status},{where:{ApplicationID:ApplicationID}});
-    res.status(200).json("Update Successful!")
+    res.status(200).json({msg:"Update Successfull!"})
 }
 
 module.exports = {ListJob,getAllApplications,updateApplication}
