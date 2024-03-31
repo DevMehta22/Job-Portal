@@ -7,7 +7,7 @@ const RegisterCandidate = async(req,res)=>{
     }
     try{
         //check if the user is already registered or not
-        let checkUser=await UserModel.findOne({where : {Email: Email}});
+        let checkUser=await Candidate.findOne({where : {Email: Email}});
         if(checkUser){
             return res.status(409).send("User Already Exists");
         }
