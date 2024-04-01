@@ -161,7 +161,7 @@ const Resume = db.define("Resume",{
         }
     },
     ResumeData: {
-        type: sequelize.BLOB('long'),
+        type: sequelize.STRING,
         allowNull: false
     }
 });

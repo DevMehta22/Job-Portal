@@ -1,4 +1,4 @@
-const {JobListing,JobApplication,Recruiter} = require('../Models/models')
+const {JobListing,JobApplication,Recruiter,Education,Experience,Resume} = require('../Models/models')
 
 const ListJob = async(req,res)=>{
     const {RecruiterID} = req.params
@@ -24,6 +24,24 @@ const getAllApplications = async(req,res) => {
         res.status(500).json({msg:"Internal Server error"})
     }
 }
+
+const applicationDetails = async(req,res)=>{
+    const {ApplicationID,CandidateID} = req.params
+    const checkApplication = await JobApplication.findByPk(ApplicationID)
+    
+    if (!checkApplication)
+        return res.status(400).json("No Application Found")
+    
+    const Educationdetails = await Education.findOne({where:{CandidateID:CandidateID}})
+    const Experiencedetails = await Experience.findOne({where:{candidateID:CandidateID}})
+    const ResumeData = await Resume.findOne({where:{CandidateID:CandidateID}})
+    if (Educationdetails && Experiencedetails && ResumeData) {
+        res.status(200).json({'Education':Educationdetails,'Experience':Experiencedetails,"Resume":ResumeData});
+    }else{
+        return res.status(406).json({'Error in data': 'The candidate has not filled up all details yet.'});
+    }
+
+}
 const updateApplication = async(req,res)=>{
     const {ApplicationID,RecruiterID}=req.params
 
@@ -39,4 +57,4 @@ const updateApplication = async(req,res)=>{
     res.status(200).json({msg:"Update Successfull!"})
 }
 
-module.exports = {ListJob,getAllApplications,updateApplication}
+module.exports = {ListJob,getAllApplications,applicationDetails,updateApplication}
