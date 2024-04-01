@@ -5,12 +5,14 @@ const CandidateRoutes = require('./Routes/CandidateRoutes')
 const RecruiterRoutes = require("./Routes/RecruiterRoutes")
 const CandidateFuncRoutes = require("./Routes/CandidateFuncRoutes")
 const RecruiterFuncRoutes = require("./Routes/RecruiterFuncRoutes")
+const authRoutes = require("./Routes/authRoutes")
 
 const {syncModel} = require('./Models/models') 
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
+app.use('/api/auth',authRoutes)
 app.use('/api/candidate',CandidateRoutes)
 app.use('/api/candidatefunc',CandidateFuncRoutes)
 app.use('/api/recruiter',RecruiterRoutes)

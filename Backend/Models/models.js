@@ -234,6 +234,26 @@ const Experience = db.define('Experience', {
     }
   });
 
+const User = db.define('User',{
+    UserID:{
+        type:sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    username:{
+        type :sequelize.STRING ,
+        unique :true ,
+        allowNull :false
+    },
+    password : {
+        type:sequelize.STRING,
+        allowNull:false
+    },
+    role:{
+        type:sequelize.ENUM("candidate","recruiter"),
+    }
+}) 
+
 //Associations
 JobListing.belongsTo(Recruiter);
 Recruiter.hasMany(JobListing);
@@ -259,6 +279,7 @@ const syncModel = async()=>{
 
 module.exports = {
     syncModel,
+    User,
     Candidate,
     Recruiter,
     JobListing,
