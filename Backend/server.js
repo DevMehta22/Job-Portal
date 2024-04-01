@@ -1,5 +1,6 @@
 require('dotenv').config()
 const express = require('express')
+const cors = require('cors')
 const app = express()
 const CandidateRoutes = require('./Routes/CandidateRoutes')
 const RecruiterRoutes = require("./Routes/RecruiterRoutes")
@@ -11,6 +12,7 @@ const {syncModel} = require('./Models/models')
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
+app.use(cors())
 
 app.use('/api/auth',authRoutes)
 app.use('/api/candidate',CandidateRoutes)
