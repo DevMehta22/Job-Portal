@@ -7,6 +7,7 @@ import SignUp from './Pages/Signup';
 import Login from './Pages/Login';
 import Recruiter from './Pages/Recruiter';
 import Candidate from './Pages/Candidate';
+import RecruiterDashboard from './Pages/RecruiterDashboard';
 function App() {
   return (
     <div className="App">
@@ -18,6 +19,7 @@ function App() {
         <Route path="/login" element={<Login/>}/>
         <Route path="/recruiter" element={<Recruiter/>}/>
         <Route path="/candidate" element={<Candidate/>}/>
+        <Route path="recruiter/dashboard/:id" element={<RecruiterDashboard/>}/>
       </Routes>
       <Footer/>
       </BrowserRouter>

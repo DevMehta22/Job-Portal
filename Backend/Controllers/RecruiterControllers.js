@@ -19,6 +19,16 @@ const RegisterRecruiter = async(req,res)=>{
     }
 }
 
+const getRecruiters = async(req,res)=>{
+    try {
+        const recruiters = await Recruiter.findAll()
+        res.status(200).send(recruiters)
+    } catch (error) {
+        console.log(error)
+        res.status(404).json({err:"No record found"})
+    }
+}
+
 const getARecruiter = async(req,res)=>{
     const {id} = req.params;
     try{
@@ -60,4 +70,4 @@ const deleteRecruiter = async(req,res)=>{
     
 }
 
-module.exports = {RegisterRecruiter,getARecruiter,updateRecruiter,deleteRecruiter}
+module.exports = {RegisterRecruiter,getRecruiters,getARecruiter,updateRecruiter,deleteRecruiter}

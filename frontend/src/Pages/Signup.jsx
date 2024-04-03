@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "./Signup.css"; 
+import "./Styles/Signup.css"; 
 
 const SignUp = () => {
 const [successMessage, setSuccessMessage] = useState(null);
@@ -22,15 +22,14 @@ const handleChange = (e) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:3000/api/auth/signup", formData)
+    axios.post("http://localhost:3000/api/auth/signup", formData)
       .then((response) => {
         console.log(response);
         setSuccessMessage("Successfully Signed Up!")
          setTimeout(() => {
           setSuccessMessage(null);
         }, 3000)
-        //navigate("/login");
+        navigate("/login");
       })
       .catch((error) => {
         console.error("Signup error:", error);
