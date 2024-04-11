@@ -45,7 +45,7 @@ const  ApplyForJob = async(req,res) => {
         if (!resume) {
             await Resume.create({ CandidateID, ResumeData: req.file.path });
         } else {
-            await resume.update({ ResumeData });
+            await resume.update({ ResumeData:req.file.path });
         }
 
         const newApplication = await JobApplication.create({ CandidateID, ListingID });

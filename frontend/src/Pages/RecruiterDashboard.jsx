@@ -1,8 +1,7 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import ListJob from "../Components/ListJob"
-import ViewApplications from "../Components/ViewApplications"
-import axios from "axios";
+import axios from 'axios';
 import "./Styles/RecruiterDashboard.css"
 
 const handleDeleteProfile = (id)=>{
@@ -17,7 +16,18 @@ const RecruiterDashboard = () => {
   const {id} = useParams()
   return (
       <div className="dashboard-container">
-        <div className="menu">
+        
+        
+        
+        <h2 className="text-center" style={{color:"white",margin:"30px",fontFamily:"serif"}}>RECRUITER DASHBOARD</h2>
+        <div className="recFunc">
+        <ul>
+            <li>
+              <ListJob/>
+            </li>
+        </ul>
+        </div>
+      <div className="menu">
         <ul>
           <li>
             <Link to="#" className="btn btn-primary mx-3" onClick={handleUpdateProfile(id)}>Update Profile</Link>
@@ -27,16 +37,6 @@ const RecruiterDashboard = () => {
           </li>
         </ul>
         </div>
-        <h1 className="text-center" style={{color:"white",margin:"20px",fontFamily:"serif"}}>Recruiter Dashboard</h1>
-        <ul>
-            <li>
-              <ListJob/>
-            </li>
-            <li>
-              <ViewApplications/>
-            </li>
-        </ul>
-           
       </div>
   );
 };

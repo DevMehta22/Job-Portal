@@ -1,0 +1,97 @@
+.list-job {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  
+  h3 {
+    margin-top: 0;
+  }
+  
+  .job-form {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    font-weight: bold;
+    display: block;
+  }
+  
+  input[type='text'],
+  input[type='number'],
+  textarea,
+  select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  textarea {
+    resize: vertical;
+  }
+  
+  button {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .job-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-gap: 20px;
+  }
+  
+  .job {
+    margin-top: 3px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    background-color: #f9f9f9;
+  }
+  
+  .job h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+  
+  .job p {
+    margin: 0;
+    margin-bottom: 5px;
+  }
+  
+  .job-actions {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .delete-btn,
+  .update-btn,
+  .view-btn {
+    margin: 5px;
+    padding: 4px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .delete-btn {
+    background-color: #dc3545;
+  }
+  
+  .update-btn {
+    background-color: #ffc107;
+  }
+  
+  .view-btn {
+    background-color: #28a745;
+  }
+  

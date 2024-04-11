@@ -8,10 +8,29 @@ const ListJob = async(req,res)=>{
     }
     const {Title,CompanyName,Sector,JobType,Description,SalOffered,Location,Deadline} = req.body
     await JobListing.create({RecruiterID,Title,CompanyName,Sector,JobType,Description,SalOffered,Location,Deadline})
-    .then((job)=>res.status(201).json({"Job succesfully added!\n":job}))
+    .then((job)=>res.status(201).json(job))
     .catch(e=>{
         console.log(e)
     })
+}
+
+const getJobsByID = async(req,res)=>{
+    const {RecruiterID} = req.params
+    const validRecruiter = await Recruiter.findByPk(RecruiterID)
+    if(!validRecruiter){
+        return res.status(400).send('Invalid Recruiter ID')
+    }
+    try {
+        await JobListing.findAll({where:{RecruiterID:RecruiterID}})
+            .then(data =>{
+                res.status(200).json(data)
+            }).catch(e=>{
+                console.log(e)
+            })
+    } catch (error) {
+        console.log("Error in getting job by id: ", error);
+        return res.status(500).send(`Server Error!`)
+    }
 }
 
 const getAllApplications = async(req,res) => {
@@ -57,4 +76,4 @@ const updateApplication = async(req,res)=>{
     res.status(200).json({msg:"Update Successfull!"})
 }
 
-module.exports = {ListJob,getAllApplications,applicationDetails,updateApplication}
+module.exports = {ListJob,getJobsByID,getAllApplications,applicationDetails,updateApplication}

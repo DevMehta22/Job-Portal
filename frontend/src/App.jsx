@@ -8,6 +8,8 @@ import Login from './Pages/Login';
 import Recruiter from './Pages/Recruiter';
 import Candidate from './Pages/Candidate';
 import RecruiterDashboard from './Pages/RecruiterDashboard';
+import CandidateDashboard from './Pages/CandidateDashboard';
+import Application from './Pages/Application';
 function App() {
   return (
     <div className="App">
@@ -19,7 +21,9 @@ function App() {
         <Route path="/login" element={<Login/>}/>
         <Route path="/recruiter" element={<Recruiter/>}/>
         <Route path="/candidate" element={<Candidate/>}/>
-        <Route path="recruiter/dashboard/:id" element={<RecruiterDashboard/>}/>
+        <Route path="/recruiter/dashboard/:id" element={<RecruiterDashboard/>}/>
+        <Route path="/candidate/dashboard/:id" element={<CandidateDashboard/>}/>
+        <Route path="/candidate/apply/:id/:ListingID" element={<Application/>}/>
       </Routes>
       <Footer/>
       </BrowserRouter>

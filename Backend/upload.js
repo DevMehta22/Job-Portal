@@ -23,6 +23,6 @@ const upload = multer({
         }
         cb("give proper file")
     }
-}).single('image')
+}).single('ResumeData')
 
 module.exports = {upload} 

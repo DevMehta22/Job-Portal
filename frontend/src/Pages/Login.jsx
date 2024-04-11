@@ -24,6 +24,8 @@ const handleChange = (e) => {
       .post("http://localhost:3000/api/auth/login", formData)
       .then((response) => {
         console.log(response);
+        localStorage.setItem("token", response.data.token);
+        console.log(localStorage.getItem('token'));
         if (response.data.role == "recruiter") {
             navigate("/recruiter")    
         }else{
