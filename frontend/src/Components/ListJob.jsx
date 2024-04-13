@@ -2,10 +2,11 @@
 import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import './ListJob.css';
-import { useParams } from 'react-router-dom';
+import { useParams,useNavigate } from 'react-router-dom';
 
 const ListJob = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   let ID = parseInt(id.substring(1))
   const token = localStorage.getItem('token')
   // State to manage list of jobs
@@ -23,7 +24,7 @@ const ListJob = () => {
   useEffect(()=>{
     try {
       async function fetchData(){
-        await axios.get(`http://localhost:3000/api/recruiterfunc/jobs/${ID}`,{
+        await axios.get(`http://localhost:3000/api/recruiterfunc/jobs/${id}`,{
         headers:{
             'x-auth-token':token
         }
@@ -35,7 +36,7 @@ const ListJob = () => {
     } catch (error) {
       console.log("Error", error);
     }
-  },[ID,token])
+  },[id,token])
 
 
   // Function to handle form submission
@@ -43,7 +44,7 @@ const ListJob = () => {
     event.preventDefault();
     try {
       // Send POST request to backend API
-      await axios.post(`http://localhost:3000/api/recruiterfunc/list/${ID}`, {
+      await axios.post(`http://localhost:3000/api/recruiterfunc/list/${id}`, {
         Title,
         CompanyName,
         Sector,
@@ -174,7 +175,7 @@ const ListJob = () => {
             <div className="job-actions">
               <button className='delete-btn'>Delete</button>
               <button className='update-btn'>Update</button>
-              <button className='view-btn'>View Applications</button>
+              <button className='view-btn' onClick={()=>{navigate(`/recruiters/applications/${job.ListingID}`)}}>View Applications</button>
             </div>
           </div>
         ))}

@@ -1,0 +1,101 @@
+/* Container for application list */
+.application-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Individual application card */
+.application {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+  padding: 20px;
+  width: 300px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.application:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.application h2 {
+  color: #333333;
+  font-size: 22px;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.application p {
+  color: #666666;
+  margin: 5px 0;
+}
+
+/* Buttons within the application card */
+.application button {
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+  padding: 8px 16px;
+  transition: background-color 0.3s;
+}
+
+.application button:hover {
+  background-color: #0056b3;
+}
+
+/* Details section */
+.details {
+  background-color: #f9f9f9;
+  border: 1px solid #cccccc;
+  border-radius: 10px;
+  margin-top: 20px;
+  padding: 20px;
+}
+
+.details h2 {
+  color: #333333;
+  font-size: 20px;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.details h3 {
+  color: #555555;
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+.details p {
+  color: #666666;
+  margin: 5px 0;
+}
+
+/* Resume section */
+.resume {
+  margin-top: 20px;
+}
+
+.resume iframe {
+  border: none;
+  width: 100%;
+  height: 400px;
+}
+
+.resume a {
+  color: #007bff;
+  display: inline-block;
+  margin-top: 10px;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.resume a:hover {
+  color: #0056b3;
+}

@@ -1,8 +1,8 @@
 const {Candidate} = require('../Models/models')
 
 const RegisterCandidate = async(req,res)=>{
-    const {Name,Email,Phone_no,Address,DOB,Gender} = req.body;
-    if (!Name || !Email || !Phone_no || !Address || !DOB || !Gender) {
+    const {Name,Email,Phone_No,Address,DOB,Gender} = req.body;
+    if (!Name || !Email || !Phone_No || !Address || !DOB || !Gender) {
         res.status(401).json({message: "Please provide all the details"});
     }
     try{
@@ -11,11 +11,11 @@ const RegisterCandidate = async(req,res)=>{
         if(checkUser){
             return res.status(409).send("User Already Exists");
         }
-        const newCandidate = await Candidate.create({Name,Email,Phone_no,Address,DOB,Gender});
-        res.status(201).json({"Candidate": newCandidate});
+        const newCandidate = await Candidate.create({Name,Email,Phone_No,Address,DOB,Gender});
+        return res.status(201).json({"Candidate": newCandidate});
     }catch(err){
         console.log('Error in registering candidate', err);
-        res.status(500).json({error: 'Internal Server Error'})
+        return res.status(500).json({error: 'Internal Server Error'})
     }
 }
 

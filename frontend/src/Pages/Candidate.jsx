@@ -8,7 +8,7 @@ const Candidate = () => {
   const [profileData, setProfileData] = useState({
     Name: "",
     Email: "",
-    Phone_no:"",
+    Phone_No:"",
     Address:"",
     DOB:"",
     Gender:""
@@ -106,12 +106,12 @@ const Candidate = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="Phone_no">Phone_no</label>
+          <label htmlFor="Phone_No">Phone_No</label>
           <input
             type="number"
-            id="Phone_no"
-            name="Phone_no"
-            value={profileData.Phone_no}
+            id="Phone_No"
+            name="Phone_No"
+            value={profileData.Phone_No}
             onChange={handleChange}
             required
           />

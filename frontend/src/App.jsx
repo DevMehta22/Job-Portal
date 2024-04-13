@@ -10,6 +10,7 @@ import Candidate from './Pages/Candidate';
 import RecruiterDashboard from './Pages/RecruiterDashboard';
 import CandidateDashboard from './Pages/CandidateDashboard';
 import Application from './Pages/Application';
+import ViewApplications from './Components/ViewApplications';
 function App() {
   return (
     <div className="App">
@@ -24,6 +25,7 @@ function App() {
         <Route path="/recruiter/dashboard/:id" element={<RecruiterDashboard/>}/>
         <Route path="/candidate/dashboard/:id" element={<CandidateDashboard/>}/>
         <Route path="/candidate/apply/:id/:ListingID" element={<Application/>}/>
+        <Route path='/recruiters/applications/:ListingID' element={<ViewApplications/>}/>
       </Routes>
       <Footer/>
       </BrowserRouter>

@@ -50,7 +50,7 @@ const Recruiter = () => {
       console.log(response)
       for(let res in response.data){
         if(profileData.Name===response.data[res].Name && profileData.Email===response.data[res].Email){
-          navigate(`/recruiter/dashboard/:${response.data[res].RecruiterID}`)
+          navigate(`/recruiter/dashboard/${response.data[res].RecruiterID}`)
           c=1
         }
       }

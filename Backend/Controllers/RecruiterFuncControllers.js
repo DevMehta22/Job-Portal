@@ -55,7 +55,7 @@ const applicationDetails = async(req,res)=>{
     const Experiencedetails = await Experience.findOne({where:{candidateID:CandidateID}})
     const ResumeData = await Resume.findOne({where:{CandidateID:CandidateID}})
     if (Educationdetails && Experiencedetails && ResumeData) {
-        res.status(200).json({'Education':Educationdetails,'Experience':Experiencedetails,"Resume":ResumeData});
+        res.status(200).send({Educationdetails,Experiencedetails,ResumeData});
     }else{
         return res.status(406).json({'Error in data': 'The candidate has not filled up all details yet.'});
     }
