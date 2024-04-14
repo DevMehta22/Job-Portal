@@ -33,6 +33,56 @@ const getJobsByID = async(req,res)=>{
     }
 }
 
+const JobByListingID = async(req,res)=>{
+    const {ListingID} = req.params
+    try {
+        let data = await JobListing.findOne({where:{ListingID:ListingID}})
+        res.status(200).json(data)
+    } catch (error) {
+        return res.status(500).send(error)
+    }
+    
+}
+const deleteJob = async(req,res)=>{
+    const {ListingID} = req.params
+    try {
+        await JobApplication.destroy({ where: { ListingID : ListingID }}).then(()=>{
+            JobListing.destroy({where:{ListingID:ListingID}}).then(()=>{
+                res.status(200).send("Job deleted successfully")
+            })
+        })
+    } catch (error) {
+        res.status(400).send("Failed to Delete the Job")
+    }
+}
+
+const updateJob = async(req,res)=>{
+    const {ListingID}=req.params;
+    let data=req.body;
+
+    const checkJob = await JobListing.findByPk(ListingID)
+    if (!checkJob) {
+        return res.status(400).send("No such listing found.")
+    }
+    // Fields that can be updated are Title, Description, Salary, Location and Category
+    const updatableFields = ['Title','CompanyName','Sector','JobType','Description','SalOffered','Location','Deadline']  
+    for (let field of Object.keys(data)) {
+        if (!updatableFields.includes(field)){
+            delete data[field] 
+        }
+    }
+    try {
+       await JobListing.update(data,{where:{ListingID:ListingID}})
+       .then((updatedJob)=>{
+           return res.status(201).json(updatedJob)
+       }).catch((err)=> {
+           return res.status(400).send('Update failed')
+       });
+    } catch (error) {
+        return res.status(500).send(error);
+}
+}
+
 const getAllApplications = async(req,res) => {
     const {ListingID} = req.params
     try{
@@ -76,4 +126,4 @@ const updateApplication = async(req,res)=>{
     res.status(200).json({msg:"Update Successfull!"})
 }
 
-module.exports = {ListJob,getJobsByID,getAllApplications,applicationDetails,updateApplication}
+module.exports = {ListJob,getJobsByID,getAllApplications,applicationDetails,updateApplication,deleteJob,updateJob,JobByListingID}

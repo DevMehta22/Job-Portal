@@ -79,9 +79,23 @@ const ListJob = () => {
     }
   };
 
+  const handleDelete = async (ListingID) => {
+    try {
+      await axios.delete(`http://localhost:3000/api/recruiterfunc/deletejob/${ListingID}`, {
+        headers: {
+          'x-auth-token': token
+        }
+      });
+      setJobs(jobs.filter(job => job.ListingID !== ListingID));
+      alert("Successfully deleted!");
+    } catch (error) {
+      console.error('Error deleting job:', error);
+    }
+  };
+
   return (
     <div className="list-job">
-      <h3 style={{fontFamily:"serif",color:"white",backgroundColor:"Highlight",textAlign:'center',borderRadius:"10px"}}>List Job</h3>
+      <h3 style={{fontFamily:"serif",color:"white",backgroundColor:"slategray",textAlign:'center',borderRadius:"10px"}}>List Job</h3>
       <form onSubmit={handleSubmit} className="job-form">
         <div className="form-group">
           <label htmlFor="title">Job Title</label>
@@ -173,8 +187,8 @@ const ListJob = () => {
             <p><strong>Location:</strong> {job.Location}</p>
             <p><strong>Deadline:</strong> {job.Deadline}</p>
             <div className="job-actions">
-              <button className='delete-btn'>Delete</button>
-              <button className='update-btn'>Update</button>
+              <button className='delete-btn' onClick={() => handleDelete(job.ListingID)}>Delete</button>
+              <button className='update-btn' onClick={()=>{navigate(`/updatejob/${job.ListingID}`);}}>Update</button>
               <button className='view-btn' onClick={()=>{navigate(`/recruiters/applications/${job.ListingID}`)}}>View Applications</button>
             </div>
           </div>

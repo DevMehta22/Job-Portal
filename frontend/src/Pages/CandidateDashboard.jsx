@@ -4,7 +4,7 @@ import Jobs from "../Components/Jobs";
 
 const CandidateDashboard = ()=>{
     return (
-        <div className="candidate">
+        <div className="candidateDashboard">
             <Jobs/>
         </div>
     )

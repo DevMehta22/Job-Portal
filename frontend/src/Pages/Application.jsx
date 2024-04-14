@@ -15,11 +15,11 @@ const Application = ({ job, onSubmit }) => {
     });
 
     const [experience, setExperience] = useState({
-        position: "",
-        company: "",
+        position: null,
+        company: null,
         skills:"",
-        startDate: "",
-        endDate: ""
+        startDate: null,
+        endDate: null
     });
 
     const [resume, setResume] = useState(null);
