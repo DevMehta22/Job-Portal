@@ -63,8 +63,8 @@ const Candidate = () => {
         let c = 0;
         console.log(response);
         for (let res in response.data) {
-          if (profileData === response.data[res]) {
-            navigate(`/candidate/dashboard/:${response.data[res].CandidateID}`);
+          if (profileData.Email === response.data[res].Email) {
+            navigate(`/candidate/dashboard/${response.data[res].candidateID}`);
             c = 1;
           }
         }
