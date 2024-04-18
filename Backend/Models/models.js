@@ -212,7 +212,7 @@ const Experience = db.define('Experience', {
         key: 'CandidateID'
       }
     },
-    Postion: {
+    Position: {
       type: sequelize.STRING,
       allowNull: true
     },
