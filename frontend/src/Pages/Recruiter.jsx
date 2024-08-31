@@ -9,6 +9,7 @@ const Recruiter = () => {
     Name: "",
     Email: "",
   });
+  const [errmsg,seterrmsg] = useState(null)
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,9 +21,7 @@ const Recruiter = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .get(`http://localhost:3000/api/recruiter/`)
-      .then((response1) => {
+    axios.get(`http://localhost:3000/api/recruiter/`).then((response1) => {
         console.log(response1.data);
         if (response1.data.length == 0) {
           axios
@@ -35,6 +34,11 @@ const Recruiter = () => {
             })
             .catch((error) => {
               console.error("Profile creation error:", error);
+              seterrmsg(error)
+              console.log(errmsg)
+              // setTimeout(()=>{
+              //   seterrmsg(null)
+              // },3000)
             });
         }
         for (let res in response1.data) {
@@ -118,6 +122,7 @@ const Recruiter = () => {
           Enter Dashboard
         </button>
         <button onClick={handleSubmit}>Create Profile</button>
+        {errmsg && <p className="error-message">{errmsg}</p>}
       </form>
     </div>
   );

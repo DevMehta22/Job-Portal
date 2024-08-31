@@ -67,14 +67,6 @@ const JobListing = db.define("JobListing",{
         primaryKey: true,
         autoIncrement: true
     },
-    RecruiterID: {
-        type: sequelize.INTEGER,
-        allowNull: false,
-        references: {
-            model: 'Recruiters',
-            key: 'RecruiterID'
-        }
-    },
     Title: {
         type: sequelize.STRING,
         allowNull: false
@@ -119,22 +111,6 @@ const JobApplication = db.define("JobApplication",{
         primaryKey: true,
         autoIncrement: true
     },
-    CandidateID: {
-        type: sequelize.INTEGER,
-        allowNull: false,
-        references: {
-            model: 'Candidates',
-            key: 'CandidateID'
-        }
-    },
-    ListingID: {
-        type: sequelize.INTEGER,
-        allowNull: false,
-        references: {
-            model: 'JobListings',
-            key: 'ListingID'
-        }
-    },
     Status:{
         type: sequelize.ENUM('SUBMITTED','INTERVIEW SCHEDULED','REJECTED','HIRED'),
         defaultValue:'SUBMITTED',
@@ -152,14 +128,6 @@ const Resume = db.define("Resume",{
         primaryKey: true,
         autoIncrement: true
     },
-    CandidateID: {
-        type: sequelize.INTEGER,
-        allowNull: false,
-        references: {
-            model: 'Candidates',
-            key: 'CandidateID'
-        }
-    },
     ResumeData: {
         type: sequelize.STRING,
         allowNull: false
@@ -171,14 +139,6 @@ const Education = db.define("Education",{
         type: sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
-    },
-    CandidateID: {
-        type: sequelize.INTEGER,
-        allowNull: false,
-        references: {
-            model: 'Candidates',
-            key: 'CandidateID'
-        }
     },
     Degree: {
         type: sequelize.STRING,
@@ -203,14 +163,6 @@ const Experience = db.define('Experience', {
       type: sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true
-    },
-    candidateID: {
-      type: sequelize.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'Candidates',
-        key: 'CandidateID'
-      }
     },
     Position: {
       type: sequelize.STRING,
@@ -255,25 +207,40 @@ const User = db.define('User',{
 }) 
 
 //Associations
-JobListing.belongsTo(Recruiter);
+// JobListing.belongsTo(Recruiter);
+// Recruiter.hasMany(JobListing);
+
+// JobApplication.belongsTo(Candidate);
+// Candidate.hasOne(JobApplication);
+
+// Education.belongsTo(Candidate);
+// Experience.belongsTo(Candidate);
+// Resume.belongsTo(Candidate);
+// Candidate.hasOne(Resume);
+// Candidate.hasMany(Experience);
+// Candidate.hasMany(Education);
+
 Recruiter.hasMany(JobListing);
+JobListing.belongsTo(Recruiter);
 
+Candidate.hasMany(JobApplication);
 JobApplication.belongsTo(Candidate);
-Candidate.hasOne(JobApplication);
 
-Education.belongsTo(Candidate);
-Experience.belongsTo(Candidate);
-Resume.belongsTo(Candidate);
-Candidate.hasOne(Resume);
-Candidate.hasMany(Experience);
 Candidate.hasMany(Education);
+Education.belongsTo(Candidate);
+
+Candidate.hasMany(Experience);
+Experience.belongsTo(Candidate);
+
+Candidate.hasOne(Resume);
+Resume.belongsTo(Candidate);
 
 const syncModel = async()=>{
     try {
         await db.sync({alter: true});
         console.log("Models Synchronized")
     } catch (error) {
-        console.log(error);
+        console.log("Error at model sync:\n",error);
     }
 }
 
