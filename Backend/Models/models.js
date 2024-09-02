@@ -4,9 +4,9 @@ const sequelize = require('sequelize')
 const db = new sequelize({
     dialect: 'mysql',
     host: process.env.HOST,
-    username: process.env.USERNAME,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE
+    username: process.env.MYSQL_USER,
+    password: process.env.MYSQL_ROOT_PASSWORD,
+    database: process.env.MYSQL_DATABASE
 })
 
 const Candidate = db.define("Candidate",{

@@ -25,10 +25,10 @@ const Candidate = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .get(`http://localhost:3000/api/candidate/getcandidates`)
+      .get(`http://localhost:8000/api/candidate/getcandidates`)
       .then((response1) => {
         if (response1.data.length == 0) {
-          axios.post("http://localhost:3000/api/candidate/register", profileData)
+          axios.post("http://localhost:8000/api/candidate/register", profileData)
             .then((response) => {
               // console.log(response);
               navigate(`/candidate/dashboard/${response.data.Candidate.candidateID}`);
@@ -42,7 +42,7 @@ const Candidate = () => {
             alert("You are already registered.");
           } else {
             // console.log(profileData);
-            axios.post("http://localhost:3000/api/candidate/register", profileData)
+            axios.post("http://localhost:8000/api/candidate/register", profileData)
               .then((response) => {
                 console.log(response);
                 navigate(`/candidate/dashboard/${response.data.Candidate.candidateID}`);
@@ -58,7 +58,7 @@ const Candidate = () => {
 
   const handleClick = () => {
     axios
-      .get(`http://localhost:3000/api/candidate/getcandidates`)
+      .get(`http://localhost:8000/api/candidate/getcandidates`)
       .then((response) => {
         let c = 0;
         console.log(response);

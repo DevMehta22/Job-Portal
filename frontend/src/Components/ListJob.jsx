@@ -24,7 +24,7 @@ const ListJob = () => {
   useEffect(()=>{
     try {
       async function fetchData(){
-        await axios.get(`http://localhost:3000/api/recruiterfunc/jobs/${id}`,{
+        await axios.get(`http://localhost:8000/api/recruiterfunc/jobs/${id}`,{
         headers:{
             'x-auth-token':token
         }
@@ -44,7 +44,7 @@ const ListJob = () => {
     event.preventDefault();
     try {
       // Send POST request to backend API
-      await axios.post(`http://localhost:3000/api/recruiterfunc/list/${id}`, {
+      await axios.post(`http://localhost:8000/api/recruiterfunc/list/${id}`, {
         Title,
         CompanyName,
         Sector,
@@ -81,7 +81,7 @@ const ListJob = () => {
 
   const handleDelete = async (ListingID) => {
     try {
-      await axios.delete(`http://localhost:3000/api/recruiterfunc/deletejob/${ListingID}`, {
+      await axios.delete(`http://localhost:8000/api/recruiterfunc/deletejob/${ListingID}`, {
         headers: {
           'x-auth-token': token
         }

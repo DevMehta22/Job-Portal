@@ -1,0 +1,56 @@
+version: "3.8"
+services:
+  mysqldb:
+    container_name: mysqldb
+    image: mysql:8.0.33
+    environment:
+       MYSQL_ROOT_PASSWORD: 'dhmehta'
+       MYSQL_DATABASE: 'JobPortal'
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - nodejs-mysql-network
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      retries: 10
+      interval: 3s
+      timeout: 30s      
+
+  backend:
+    container_name: Backend
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - logs:/app/logs
+      - ./Backend:/app
+      - /app/node_modules
+    depends_on:
+      - mysqldb
+  
+  frontend:
+    container_name: Frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend/src:/app/src
+      - /app/node_modules
+    stdin_open: true
+    tty: true
+    depends_on:
+      - mysqldb
+      - backend
+
+volumes:
+  logs:
+  mysql-data:
+networks:
+  nodejs-mysql-network:
+    name: nodejs-mysql-network

@@ -21,11 +21,11 @@ const Recruiter = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.get(`http://localhost:3000/api/recruiter/`).then((response1) => {
+    axios.get(`http://localhost:8000/api/recruiter/`).then((response1) => {
         console.log(response1.data);
         if (response1.data.length == 0) {
           axios
-            .post("http://localhost:3000/api/recruiter/register", profileData)
+            .post("http://localhost:8000/api/recruiter/register", profileData)
             .then((response) => {
               // console.log(response);
               navigate(
@@ -38,7 +38,7 @@ const Recruiter = () => {
               console.log(errmsg)
               // setTimeout(()=>{
               //   seterrmsg(null)
-              // },3000)
+              // },8000)
             });
         }
         for (let res in response1.data) {
@@ -49,7 +49,7 @@ const Recruiter = () => {
             alert("You are already registered.");
           } else {
             axios
-              .post("http://localhost:3000/api/recruiter/register", profileData)
+              .post("http://localhost:8000/api/recruiter/register", profileData)
               .then((response) => {
                 // console.log(response);
                 navigate(
@@ -67,7 +67,7 @@ const Recruiter = () => {
 
   const handleClick = () => {
     axios
-      .get(`http://localhost:3000/api/recruiter/`)
+      .get(`http://localhost:8000/api/recruiter/`)
       .then((response) => {
         let c = 0;
         console.log(response);

@@ -18,7 +18,7 @@ const ViewApplications = () => {
     try {
       async function fetchData() {
         console.log(ListingID);
-        await axios.get(`http://localhost:3000/api/recruiterfunc/applications/${ListingID}`,
+        await axios.get(`http://localhost:8000/api/recruiterfunc/applications/${ListingID}`,
             {
               headers: {
                 "x-auth-token": token,
@@ -29,7 +29,7 @@ const ViewApplications = () => {
             setData(i.data)
             i.data.forEach(async (application) => {
               const candidateID = application.CandidateID;
-              const candidateResponse = await axios.get(`http://localhost:3000/api/candidate/getcandidate/${candidateID}`);
+              const candidateResponse = await axios.get(`http://localhost:8000/api/candidate/getcandidate/${candidateID}`);
               setCandidateDetails(prevState => ({
                 ...prevState,
                 [candidateID]: candidateResponse.data
@@ -53,7 +53,7 @@ const ViewApplications = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `http://localhost:3000/api/recruiterfunc/application/details/${ApplicationID}/${CandidateID}`,
+          `http://localhost:8000/api/recruiterfunc/application/details/${ApplicationID}/${CandidateID}`,
           {
             headers: {
               "x-auth-token": token,
@@ -144,8 +144,8 @@ const ViewApplications = () => {
                     </p>
                     <h3>Resume Data:</h3>
                     <div className="resume">
-                    <iframe src={`http://localhost:3000/${ApplicationDetails.ResumeData.ResumeData}`} width="100%" height="600px"></iframe>
-                    <a href={`http://localhost:3000/${ApplicationDetails.ResumeData.ResumeData}`} download>Download Resume</a>
+                    <iframe src={`http://localhost:8000/${ApplicationDetails.ResumeData.ResumeData}`} width="100%" height="600px"></iframe>
+                    <a href={`http://localhost:8000/${ApplicationDetails.ResumeData.ResumeData}`} download>Download Resume</a>
                     </div>
                     
                   </>

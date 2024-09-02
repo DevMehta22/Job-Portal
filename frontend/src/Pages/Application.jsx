@@ -47,7 +47,7 @@ const Application = ({ job, onSubmit }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!resume) return alert("Please upload your resume");
-        axios.post(`http://localhost:3000/api/candidatefunc/apply/${id}/${ListingID}`,{
+        axios.post(`http://localhost:8000/api/candidatefunc/apply/${id}/${ListingID}`,{
             Degree: education.degree,  
             Institution: education.institution, 
             Major: education.major,

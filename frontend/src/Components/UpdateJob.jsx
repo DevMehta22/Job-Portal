@@ -22,7 +22,7 @@ const UpdateJob = () => {
   useEffect(() => {
     async function fetchJob() {
       try {
-        const response = await axios.get(`http://localhost:3000/api/recruiterfunc/job/${ListingID}`, {
+        const response = await axios.get(`http://localhost:8000/api/recruiterfunc/job/${ListingID}`, {
           headers: {
             'x-auth-token': token
           }
@@ -46,7 +46,7 @@ const UpdateJob = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:3000/api/recruiterfunc/updatejob/${ListingID}`, job, {
+      await axios.put(`http://localhost:8000/api/recruiterfunc/updatejob/${ListingID}`, job, {
         headers: {
           'x-auth-token': token
         }

@@ -21,7 +21,7 @@ const handleChange = (e) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3000/api/auth/login", formData)
+      .post("http://localhost:8000/api/auth/login", formData)
       .then((response) => {
         console.log(response);
         localStorage.setItem("token", response.data.token);

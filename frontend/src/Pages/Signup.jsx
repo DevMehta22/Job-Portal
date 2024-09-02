@@ -22,7 +22,7 @@ const handleChange = (e) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:3000/api/auth/signup", formData)
+    axios.post("http://localhost:8000/api/auth/signup", formData)
       .then((response) => {
         console.log(response);
         setSuccessMessage("Successfully Signed Up!")
