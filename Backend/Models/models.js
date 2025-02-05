@@ -6,7 +6,8 @@ const db = new sequelize({
     host: process.env.HOST,
     username: process.env.MYSQL_USER,
     password: process.env.MYSQL_ROOT_PASSWORD,
-    database: process.env.MYSQL_DATABASE
+    database: process.env.MYSQL_DATABASE,
+    logging:false
 })
 
 const Candidate = db.define("Candidate",{
@@ -194,7 +195,7 @@ const User = db.define('User',{
     },
     username:{
         type :sequelize.STRING ,
-        unique :true ,
+        // unique :true ,
         allowNull :false
     },
     password : {
@@ -220,20 +221,38 @@ const User = db.define('User',{
 // Candidate.hasMany(Experience);
 // Candidate.hasMany(Education);
 
-Recruiter.hasMany(JobListing);
-JobListing.belongsTo(Recruiter);
 
-Candidate.hasMany(JobApplication);
-JobApplication.belongsTo(Candidate);
+// Recruiter ↔ JobListing
+Recruiter.hasMany(JobListing, { foreignKey: "RecruiterID", onDelete: "CASCADE" });
+JobListing.belongsTo(Recruiter, { foreignKey: "RecruiterID" });
 
-Candidate.hasMany(Education);
-Education.belongsTo(Candidate);
+//Candidate <-> User
+Candidate.belongsTo(User, { foreignKey: "UserID" });
+User.hasOne(Candidate, { foreignKey: "UserID" });
 
-Candidate.hasMany(Experience);
-Experience.belongsTo(Candidate);
+//Recruiter <-> User
+Recruiter.belongsTo(User, { foreignKey: "UserID" });
+User.hasOne(Recruiter, { foreignKey: "UserID" });
 
-Candidate.hasOne(Resume);
-Resume.belongsTo(Candidate);
+// Candidate ↔ JobApplication
+Candidate.hasMany(JobApplication, { foreignKey: "CandidateID", onDelete: "CASCADE" });
+JobApplication.belongsTo(Candidate, { foreignKey: "CandidateID" });
+
+//JobListing <-> JobApplication
+JobListing.hasMany(JobApplication, { foreignKey: "ListingID", onDelete: "CASCADE" });
+JobApplication.belongsTo(JobListing, { foreignKey: "ListingID" });
+
+// Candidate ↔ Education
+Candidate.hasMany(Education, { foreignKey: "CandidateID", onDelete: "CASCADE" });
+Education.belongsTo(Candidate, { foreignKey: "CandidateID" });
+
+// Candidate ↔ Experience
+Candidate.hasMany(Experience, { foreignKey: "CandidateID", onDelete: "CASCADE" });
+Experience.belongsTo(Candidate, { foreignKey: "CandidateID" });
+
+// Candidate ↔ Resume
+Candidate.hasOne(Resume, { foreignKey: "CandidateID", onDelete: "CASCADE" });
+Resume.belongsTo(Candidate, { foreignKey: "CandidateID" });
 
 const syncModel = async()=>{
     try {

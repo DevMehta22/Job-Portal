@@ -12,7 +12,7 @@ const Jobs = ()=>{
     useEffect(() => {
         async function  getData() {
             try {
-                let response = await axios.get("http://localhost:3000/api/candidatefunc/jobs");
+                let response = await axios.get("http://localhost:8000/api/candidatefunc/jobs");
                 console.log(response.data)
                 setJobs(response.data);
             } catch (error) {

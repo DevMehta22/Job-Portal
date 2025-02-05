@@ -13,7 +13,7 @@ services:
     networks:
       - nodejs-mysql-network
     healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "mysqldb"]
       retries: 10
       interval: 3s
       timeout: 30s      
@@ -25,10 +25,14 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
+    env_file:
+      - ./Backend/.env.sample
     volumes:
       - logs:/app/logs
       - ./Backend:/app
       - /app/node_modules
+    networks:
+      - nodejs-mysql-network
     depends_on:
       - mysqldb
   
@@ -42,6 +46,8 @@ services:
     volumes:
       - ./frontend/src:/app/src
       - /app/node_modules
+    networks:
+      - nodejs-mysql-network
     stdin_open: true
     tty: true
     depends_on:

@@ -46,11 +46,9 @@ const JobByListingID = async(req,res)=>{
 const deleteJob = async(req,res)=>{
     const {ListingID} = req.params
     try {
-        await JobApplication.destroy({ where: { ListingID : ListingID }}).then(()=>{
-            JobListing.destroy({where:{ListingID:ListingID}}).then(()=>{
+        await JobListing.destroy({where:{ListingID:ListingID}}).then(()=>{
                 res.status(200).send("Job deleted successfully")
             })
-        })
     } catch (error) {
         res.status(400).send("Failed to Delete the Job")
     }
@@ -87,7 +85,10 @@ const getAllApplications = async(req,res) => {
     const {ListingID} = req.params
     try{
         const applications = await JobApplication.findAll({where:{ListingID:ListingID}})
-        res.status(200).json(applications)
+        if(applications){
+            return res.status(200).json(applications)
+        }
+        res.status(404).json("No Application found yet")
     }catch(err){
         console.log(err)
         res.status(500).json({msg:"Internal Server error"})
@@ -104,7 +105,7 @@ const applicationDetails = async(req,res)=>{
     const Educationdetails = await Education.findOne({where:{CandidateID:CandidateID}})
     const Experiencedetails = await Experience.findOne({where:{candidateID:CandidateID}})
     const ResumeData = await Resume.findOne({where:{CandidateID:CandidateID}})
-    if (Educationdetails && Experiencedetails && ResumeData) {
+    if (Educationdetails || Experiencedetails || ResumeData) {
         res.status(200).send({Educationdetails,Experiencedetails,ResumeData});
     }else{
         return res.status(406).json({'Error in data': 'The candidate has not filled up all details yet.'});

@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./Styles/Candidate.css";
 
 const Candidate = () => {
   const navigate = useNavigate();
+  const { UserID } = useParams(); // Extract UserID from URL parameters
   const [profileData, setProfileData] = useState({
     Name: "",
     Email: "",
@@ -13,7 +14,30 @@ const Candidate = () => {
     DOB: "",
     Gender: "",
   });
+  const [isRegistered, setIsRegistered] = useState(false); // Track if user exists
 
+  // Fetch candidate details based on UserID
+  useEffect(() => {
+    if (UserID) {
+      axios
+        .get(`http://localhost:8000/api/candidate/isexists/${UserID}`)
+        .then((response) => {
+          if (response.data) {
+            setIsRegistered(true);
+            navigate(`/candidate/dashboard/${response.data.candidateID}`); // Redirect to dashboard
+          }
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 404) {
+            setIsRegistered(false); // Candidate not found
+          } else {
+            console.error("Error fetching candidate details:", error);
+          }
+        });
+    }
+  }, [UserID, navigate]);
+
+  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProfileData((prevData) => ({
@@ -22,64 +46,28 @@ const Candidate = () => {
     }));
   };
 
+  // Handle profile creation
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (isRegistered) {
+      alert("You are already registered.");
+      return;
+    }
     axios
-      .get(`http://localhost:8000/api/candidate/getcandidates`)
-      .then((response1) => {
-        if (response1.data.length == 0) {
-          axios.post("http://localhost:8000/api/candidate/register", profileData)
-            .then((response) => {
-              // console.log(response);
-              navigate(`/candidate/dashboard/${response.data.Candidate.candidateID}`);
-            })
-            .catch((error) => {
-              console.error("Profile creation error:", error);
-            });
-        }
-        for (let res in response1.data) {
-          if (profileData === response1.data[res]) {
-            alert("You are already registered.");
-          } else {
-            // console.log(profileData);
-            axios.post("http://localhost:8000/api/candidate/register", profileData)
-              .then((response) => {
-                console.log(response);
-                navigate(`/candidate/dashboard/${response.data.Candidate.candidateID}`);
-              })
-              .catch((error) => {
-                console.error("Profile creation error:", error);
-              });
-          }
-        }
-      })
-      .catch((err) => console.log(err.message));
-  };
-
-  const handleClick = () => {
-    axios
-      .get(`http://localhost:8000/api/candidate/getcandidates`)
+      .post(`http://localhost:8000/api/candidate/register/${UserID}`, profileData)
       .then((response) => {
-        let c = 0;
-        console.log(response);
-        for (let res in response.data) {
-          if (profileData.Email === response.data[res].Email) {
-            navigate(`/candidate/dashboard/${response.data[res].candidateID}`);
-            c = 1;
-          }
-        }
-        if (c === 0) {
-          alert("You are not registered.");
-        }
+        navigate(`/candidate/dashboard/${response.data.Candidate.candidateID}`);
       })
-      .catch((err) => console.log(err.message));
+      .catch((error) => {
+        console.error("Profile creation error:", error);
+      });
   };
 
   return (
     <div className="candidate">
       <h2
         className="text-center"
-        style={{ color:"black",fontFamily: "serif", fontSize: "35px" }}
+        style={{ color: "black", fontFamily: "serif", fontSize: "35px" }}
       >
         Candidate Profile
       </h2>
@@ -88,7 +76,7 @@ const Candidate = () => {
           <label htmlFor="Name">Name</label>
           <input
             type="text"
-            id="name"
+            id="Name"
             name="Name"
             value={profileData.Name}
             onChange={handleChange}
@@ -118,7 +106,7 @@ const Candidate = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="Phone_No">Phone_No</label>
+          <label htmlFor="Phone_No">Phone No</label>
           <input
             type="number"
             id="Phone_No"
@@ -142,20 +130,18 @@ const Candidate = () => {
         <div className="form-group">
           <label htmlFor="Gender">Gender</label>
           <select
-            type="true"
             id="Gender"
             name="Gender"
             value={profileData.Gender}
             onChange={handleChange}
           >
-            <option value="Male"> Male</option>
+            <option value="Male">Male</option>
             <option value="Female">Female</option>
           </select>
         </div>
-        <button className="btn btn-danger" onClick={handleClick}>
-          Enter Dashboard
+        <button type="submit" disabled={isRegistered}>
+          {isRegistered ? "Already Registered" : "Create Profile"}
         </button>
-        <button onClick={handleSubmit}>Create Profile</button>
       </form>
     </div>
   );

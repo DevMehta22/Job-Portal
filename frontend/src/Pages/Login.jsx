@@ -23,13 +23,15 @@ const handleChange = (e) => {
     axios
       .post("http://localhost:8000/api/auth/login", formData)
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         localStorage.setItem("token", response.data.token);
         console.log(localStorage.getItem('token'));
+        const UserID = response.data.userId;
         if (response.data.role == "recruiter") {
-            navigate("/recruiter")    
+            navigate(`/recruiter/${UserID}`)    
         }else{
-            navigate("/candidate")
+            
+            navigate(`/candidate/${UserID}`)
         }
         
       })

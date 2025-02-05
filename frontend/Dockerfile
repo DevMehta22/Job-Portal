@@ -2,7 +2,7 @@ FROM node:22 as builder
 
 WORKDIR /frontend
 
-COPY package*.json .
+COPY package.json .
 
 COPY . .
 

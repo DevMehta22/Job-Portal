@@ -1,6 +1,7 @@
 const {Recruiter} = require('../Models/models')
 
 const RegisterRecruiter = async(req,res)=>{
+    const {UserID} = req.params;
     const {Name,Email} = req.body
     if (!Name || !Email) {
         return res.status(400).json({msg:"Please enter all fields"})
@@ -11,7 +12,7 @@ const RegisterRecruiter = async(req,res)=>{
         if (recruiter){
             return res.status(400).json({msg:'User already exists'})
         }
-        const newUser = await Recruiter.create({Name,Email})
+        const newUser = await Recruiter.create({Name,Email,UserID})
         res.status(201).json({"Recruiter":newUser});
     }catch(err){
         console.log(err);
@@ -39,6 +40,20 @@ const getARecruiter = async(req,res)=>{
         res.status(404).json({msg:"Record not found!"})
     }
 }
+
+const isRecruiterExists = async(req,res)=>{
+    const {UserID} = req.params;
+    try{
+        const recruiter = await Recruiter.findOne({where:{UserID:UserID}});
+        if(!recruiter)
+            return res.status(404).json({ message: "Recruiter not found" });
+        res.status(200).json(recruiter);
+    }catch(e){
+        console.error("Error fetching Recruiter:", error);
+        return res.status(500).json({ message: "Internal server error", error: error.message });
+    }
+}
+
 
 const updateRecruiter = async(req,res)=>{
     const {id} = req.params
@@ -70,4 +85,4 @@ const deleteRecruiter = async(req,res)=>{
     
 }
 
-module.exports = {RegisterRecruiter,getRecruiters,getARecruiter,updateRecruiter,deleteRecruiter}
+module.exports = {RegisterRecruiter,getRecruiters,isRecruiterExists,getARecruiter,updateRecruiter,deleteRecruiter}

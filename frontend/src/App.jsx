@@ -22,12 +22,12 @@ function App() {
         <Route exact path="/" element={<Home />}/>
         <Route  path="/signup" element={<SignUp/>}/>
         <Route path="/login" element={<Login/>}/>
-        <Route path="/recruiter" element={<Recruiter/>}/>
-        <Route path="/candidate" element={<Candidate/>}/>
+        <Route path="/recruiter/:UserID" element={<Recruiter/>}/>
+        <Route path="/candidate/:UserID" element={<Candidate/>}/>
         <Route path="/recruiter/dashboard/:id" element={<RecruiterDashboard/>}/>
         <Route path="/candidate/dashboard/:id" element={<CandidateDashboard/>}/>
         <Route path="/candidate/apply/:id/:ListingID" element={<Application/>}/>
-        <Route path='/recruiters/applications/:ListingID' element={<ViewApplications/>}/>
+        <Route path='/recruiters/applications/:id/:ListingID' element={<ViewApplications/>}/>
         <Route path='/updatejob/:ListingID' element={<UpdateJob/>}/>
       </Routes>
       <Footer/>

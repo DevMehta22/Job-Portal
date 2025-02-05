@@ -7,7 +7,7 @@ import { useParams,useNavigate } from 'react-router-dom';
 const ListJob = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  let ID = parseInt(id.substring(1))
+  // let ID = parseInt(id.substring(1))
   const token = localStorage.getItem('token')
   // State to manage list of jobs
   const [jobs, setJobs] = useState([]);
@@ -89,7 +89,7 @@ const ListJob = () => {
       setJobs(jobs.filter(job => job.ListingID !== ListingID));
       alert("Successfully deleted!");
     } catch (error) {
-      console.error('Error deleting job:', error);
+      console.error('Error deleting job:', error.response);
     }
   };
 
@@ -189,7 +189,7 @@ const ListJob = () => {
             <div className="job-actions">
               <button className='delete-btn' onClick={() => handleDelete(job.ListingID)}>Delete</button>
               <button className='update-btn' onClick={()=>{navigate(`/updatejob/${job.ListingID}`);}}>Update</button>
-              <button className='view-btn' onClick={()=>{navigate(`/recruiters/applications/${job.ListingID}`)}}>View Applications</button>
+              <button className='view-btn' onClick={()=>{navigate(`/recruiters/applications/${id}/${job.ListingID}`)}}>View Applications</button>
             </div>
           </div>
         ))}

@@ -1,6 +1,7 @@
 const {Candidate} = require('../Models/models')
 
 const RegisterCandidate = async(req,res)=>{
+    const {UserID} = req.params;
     const {Name,Email,Phone_No,Address,DOB,Gender} = req.body;
     if (!Name || !Email || !Phone_No || !Address || !DOB || !Gender) {
         res.status(401).json({message: "Please provide all the details"});
@@ -11,7 +12,7 @@ const RegisterCandidate = async(req,res)=>{
         if(checkUser){
             return res.status(409).send("User Already Exists");
         }
-        const newCandidate = await Candidate.create({Name,Email,Phone_No,Address,DOB,Gender});
+        const newCandidate = await Candidate.create({Name,Email,Phone_No,Address,DOB,Gender,UserID:UserID});
         return res.status(201).json({"Candidate": newCandidate});
     }catch(err){
         console.log('Error in registering candidate', err);
@@ -46,6 +47,19 @@ const getACandidate = async (req , res ) => {
    }
 }
 
+const isCandidateExists = async(req,res)=>{
+    const {UserID} = req.params;
+    try{
+        const candidate = await Candidate.findOne({where:{UserID:UserID}});
+        if(!candidate)
+            return res.status(404).json({ message: "Candidate not found" });
+        res.status(200).json(candidate);
+    }catch(e){
+        console.error("Error fetching candidate:", error);
+        return res.status(500).json({ message: "Internal server error", error: error.message });
+    }
+}
+
 const updateProfile=async(req,res)=>{
     const {id} = req.params;
     const updates=req.body;
@@ -74,4 +88,4 @@ const deleteProfile = async(req,res)=>{
     }
 }
 
-module.exports = {RegisterCandidate,getAllCandidates,getACandidate,updateProfile,deleteProfile};
+module.exports = {RegisterCandidate,getAllCandidates,getACandidate,isCandidateExists,updateProfile,deleteProfile};

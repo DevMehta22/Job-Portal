@@ -1,6 +1,6 @@
 const {User} = require('../Models/models')
 const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 
 const signup = async(req,res)=>{
     const{username,password,role}= req.body;
@@ -42,7 +42,7 @@ const login = async(req,res)=>{
             }
 
         const token = jwt.sign({ id: user.UserID }, process.env.SECRET_KEY, { expiresIn: '8h' })
-        res.json({token, auth:true, userId: user.id, username: user.username, role: user.role})
+        res.json({token, auth:true, userId: user.UserID, username: user.username, role: user.role})
     }catch(err){
         console.error(err);
         return res.status(500).send();
